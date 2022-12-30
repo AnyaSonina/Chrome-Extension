@@ -27,7 +27,7 @@ function render(leads) {
             <a class="link" target='_blank' href='${leads[i]}'>
                 ${leads[i]}
             </a>
-            <button class="delete_tab">Delete</button>       
+            <button class="delete_tab" id="${uniqueId()}">Delete</button>       
             <button class="copy" id="${uniqueId()}"><img src="/files.png" height="20px"></button>
         </li>
     `
@@ -40,12 +40,12 @@ function render(leads) {
 
     
        
-    function DeleteOrCopy(leads) {
+    function deleteOrCopy(leads) {
         
         for(let i = 0; i < leads.length; i++) {
-            deleteTabs[i].addEventListener("click", function() {
-                let index = leads.indexOf(leads[i])
-                leads.splice(index, 1)
+            deleteTabs[i].addEventListener("click", function(event) {
+                if(event.target.id === deleteTabs[i].id)
+                leads.splice(deleteTabs[i].previousElementSibling, 1)
                 localStorage.setItem("myLeads", JSON.stringify(leads))
                 render(leads)
             })
@@ -60,7 +60,7 @@ function render(leads) {
             
         }
     }
-    DeleteOrCopy(myLeads)    
+    deleteOrCopy(myLeads)    
 }
 
 
